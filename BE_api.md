@@ -15,15 +15,18 @@
 
 用户使用账号密码登录。
 
+更新了加密方式，采用django自带的登录模式
+
 ####通过用户名登录 `POST {base_url}/user/user`
 
 *  Requset(application/json)
 
   `````Json
   {
+    //phone or username is all ok 
+    "phone": "123214124",
     "username": "zwexcelwang",
-    "rand": "1234"
-    "password":"madjadflas"  //md5(rand+md5(username+md5(true password)))
+    "password":"madjadflas"  
   }
   `````
 
@@ -42,9 +45,9 @@
 
   ```Json
   {
-    "phone": "12314123", //FE do the Regex Check
+    "phone": "12314123", //FE do the Regex Filter
     "username":"zwexcelwang",  // username.length < 20 && FE check BE dosen't check
-    "password":"askldfaffadk"  //md5(rand+md5(username+md5(true password))) && length < 30
+    "password":"askldfaffadk"  //  8 < length < 30
      "validate": "1234"
   }
   ```
@@ -122,9 +125,8 @@
 ````Json
 {
   "username":"zwexcelwang",
-  "oldPassword":"mdadfjalfdj", //md5(username + md5(true old password)) && length < 30
-  "newPassword":"adjsflajadf", //md5(rand + md5(username + md5(newPassword))) && length < 30
-  "rand": "123142"
+  "oldPassword":"mdadfjalfdj", //length < 20
+  "newPassword":"adjsflajadf", //length < 20
 }
 ````
 
@@ -145,8 +147,8 @@
 ````json
 {
 	"username": "zwexcelwang",
-	"newPassword": "adfjadsag", //md5(rand + md5(username + md5(newPassword))) && length < 30
-	"rand": "12343"
+  	"phone": "123213123",
+	"newPassword": "adfjadsag", // length < 20
 }
 ````
 
@@ -289,7 +291,7 @@ User chooses the course  =>  chooses years => gets problems
 
 //maybe change
 
-* Requese
+* Requese(application/json)
 
 ```Json
 {
@@ -298,7 +300,7 @@ User chooses the course  =>  chooses years => gets problems
 	"reason":"describe the wrong points something like the print wrong or answer wrong"
 }
 ```
-* Response
+* Response 200
 
 ```Json
 {
@@ -306,6 +308,33 @@ User chooses the course  =>  chooses years => gets problems
 }
 ```
 
-####查看统计
+####查看错题统计`GET{base_url}/course/record`
 
 //maybe FE can do that 
+
+* Request  (application/json)
+
+```Json
+{
+	"username": "zwexcelwang",
+}
+```
+
+* Response 200
+
+```Json
+{
+    "problemNum": 123
+  	"problems":[
+    	{
+    	"problemId": 1231234,
+  		"problemDes": " " //descrbe the problem
+	},{
+       	"problemId": 123423,
+      	"problemDes": " "
+    }
+  ]
+}
+```
+
+If user want do that again, go to the 选择题目 funtion。
