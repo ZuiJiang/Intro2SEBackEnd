@@ -17,7 +17,7 @@
 
 更新了加密方式，采用django自带的登录模式
 
-####通过用户名登录 `POST {base_url}/user/user`
+####通过用户名登录 `POST {base_url}/user/login`
 
 *  Requset(application/json)
 
