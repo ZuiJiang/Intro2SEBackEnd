@@ -184,13 +184,13 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
     "success" : 1,
   	"num" : 10  //stands for the paper's number
   	"papers": [{
-    	"year" : 2016,
-  		"title" : "2016 Advanced Mathmatics A paper ",
-  		"paperId" : 123124 // the only id BE use to select paper
+    	"paper_year" : 2016,
+  		"paper_title" : "2016 Advanced Mathmatics A paper ",
+  		"id" : 123124 // the only id BE use to select paper
 	}, {
-		"year" : 2015,
-      	"title" : "2015 Advanced Mathmatics A paper",
-      	"paperId" : 12312  // the only id BE use to select paper
+		"paper_year" : 2015,
+      	"paper_title" : "2015 Advanced Mathmatics A paper",
+      	"id" : 12312  // the only id BE use to select paper
     }]
 }
 ```
@@ -211,12 +211,12 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 {
   "success" : 1,
   "ProblemNum": 20,
-  "ProblemsId": [{
+  "Problems": [{
     "ProblemId": 123213,
     "ProblemOrder": 1
   }, {
     "ProblemId": 12342,
-    "ProblemOder": 2
+    "ProblemOrder": 2
   }]  
   //ProblemId is the only id BE use to select problem
 }
@@ -237,11 +237,12 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 
 ````json
 {
-    "ProblemOrder": 1,
-  	"ProblemTitle": "I have no idea about the advanced mathmatics",
+  	"success": 1,
+    "id": 1,
+  	"pro_des": "I have no idea about the advanced mathmatics",
   //must support Latex
-  	"type": 1, // 1 for choose problem, 2 for judge problem, 3 for tiankong problem, 4 for Big problem
-  	"answer": "adfadsfadsf", // if type == 1 || type == 2 FE check the  answer
+  	"pro_type": 1, // 1 for choose problem, 2 for judge problem, 3 for tiankong problem, 4 for Big problem
+  	"pro_ans": "adfadsfadsf", // if type == 1 || type == 2 FE check the  answer
   	"pic" : url, // if url is null stands for no pic in this problem
 }
 ````
