@@ -23,8 +23,8 @@
 
   `````Json
   {
-    //phone or username is all ok 
-    "phone": "123214124",
+    //email or username is all ok 
+    "email": "qwer@qaz",
     "username": "zwexcelwang",
     "password":"madjadflas"  
   }
@@ -45,7 +45,7 @@
 
   ```Json
   {
-    "phone": "12314123", //FE do the Regex Filter
+    "email": "qwer@qaz", //FE do the Regex Filter
     "username":"zwexcelwang",  // username.length < 20 && FE check BE dosen't check
     "password":"askldfaffadk"  //  8 < length < 30
      "validate": "1234"
@@ -61,7 +61,7 @@
   }
   ````
 
-####检查用户名或手机号是否重复`GET{base_url}/user/sign`
+####检查用户名或邮箱是否重复`GET{base_url}/user/sign`
 
 * Requset(application/json)
 
@@ -69,7 +69,7 @@
 {
   	//二选一
 	"username": "zwexcelwang",
-	"phone": "1234342432412"
+	"email": "qwer@qaz"
 }
 ````
 
@@ -82,13 +82,13 @@
 }
 ```
 
-####发送手机验证码`POST{base_url}/user/shortMess`
+####发送邮箱验证码`POST{base_url}/user/shortMess`
 
 * Request (application/json)
 
 ```json
 {
-    "phone": "12342413123"
+    "email": "qwer@qaz"
 }
 ```
 
@@ -125,8 +125,8 @@
 ````Json
 {
   "username":"zwexcelwang",
-  "oldPassword":"mdadfjalfdj", //length < 20
-  "newPassword":"adjsflajadf", //length < 20
+  "oldPassword":"mdadfjalfdj", // 8<length < 30
+  "newPassword":"adjsflajadf", // 8<length < 30
 }
 ````
 
@@ -147,8 +147,9 @@
 ````json
 {
 	"username": "zwexcelwang",
-  	"phone": "123213123",
-	"newPassword": "adfjadsag", // length < 20
+  	"email": "qwer@qaz",
+    "validate":"1234",
+	"newPassword": "adfjadsag", // 8<length <30
 }
 ````
 
@@ -162,7 +163,7 @@
 
 ### 答题模块
 
-User chooses the course  =>  chooses years => gets problems  
+User chooses the course  =>  chooses years =>choose paper => gets problems  
 
 ####选择学科`GET{base_url}/course/course`  
 
@@ -247,7 +248,11 @@ User chooses the course  =>  chooses years => gets problems
 }
 ````
 
+<<<<<<< HEAD
 ####是否作对题目`GET{base_url}/course/judge`
+=======
+####是否做对题目`POST{base_url}/course/`
+>>>>>>> a7e361676d364a742510429d0e30f1773d274c19
 
 //maybe change
 
