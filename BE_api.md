@@ -238,15 +238,16 @@ User chooses the course  =>  chooses years => gets problems
 {
   	"success": 1,
     "id": 1,
-  	"pro_des": "I have no idea about the advanced mathmatics",
+  	"pro_detail": "I have no idea about the advanced mathmatics",
   //must support Latex
   	"pro_type": 1, // 1 for choose problem, 2 for judge problem, 3 for tiankong problem, 4 for Big problem
-  	"pro_ans": "adfadsfadsf", // if type == 1 || type == 2 FE check the  answer
+  	"option":["optioon A", "option B", "option C", "option D"], // if pro_type == 1 will have the option array 
+  	"pro_ans": "adfadsfadsf", // if type == 1 || type == 2 BE check the  answer && if others FE just show the pro_ans
   	"pic" : url, // if url is null stands for no pic in this problem
 }
 ````
 
-####是否作对题目`POST{base_url}/course/`
+####是否作对题目`GET{base_url}/course/judge`
 
 //maybe change
 
@@ -255,7 +256,7 @@ User chooses the course  =>  chooses years => gets problems
 ```Json
 {
   	"ProblemId": 12342,
-  	"result": 1 // 0 for wrong && 1 for right
+  	"ans": A // options for option problem && T || F judge problem 
 }
 ```
 
@@ -263,6 +264,7 @@ User chooses the course  =>  chooses years => gets problems
 
 ```json
 {
+  "result": 1 // 1 for right && 0 for wrong
   "success": 1
 }
 ```
@@ -275,8 +277,9 @@ User chooses the course  =>  chooses years => gets problems
 
 ````Json
 {
-	"ProblemId": 123442,
-	"username": "zwexcelwang" // but actually zwexcelwang stands for ALWAYS RIGHT ANSWRONG
+  	"ProblemId": 123442,
+  	"username": "zwexcelwang", // but actually zwexcelwang stands for ALWAYS RIGHT ANSWRONG
+  	"note": "laafj"  //user's origin note about this problem
 }
 ````
 
@@ -311,8 +314,6 @@ User chooses the course  =>  chooses years => gets problems
 
 ####查看错题统计`GET{base_url}/course/record`
 
-//maybe FE can do that 
-
 * Request  (application/json)
 
 ```Json
@@ -328,11 +329,16 @@ User chooses the course  =>  chooses years => gets problems
     "problemNum": 123
   	"problems":[
     	{
-    	"problemId": 1231234,
-  		"problemDes": " " //descrbe the problem
+    	"id": 1231234,
+  		"problemDes": " ", //descrbe the problem
+  		"problemAns": "xxxx",
+  		"pro_type": "1" // 1 for choose problem		
+  		"option":["option A", "option B", "option C"],
+  		"problemNote": "xxxxx" //user did the note
 	},{
-       	"problemId": 123423,
-      	"problemDes": " "
+       	"id": 123423,
+      	"problemDes": " ",
+      	"problemNote": "xxxxxx" 
     }
   ]
 }

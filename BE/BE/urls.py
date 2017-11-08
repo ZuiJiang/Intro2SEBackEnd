@@ -16,7 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from user import views as user
+from course import views as course 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^user/create/$',user.create, name="create"),
+    url(r'^course/course/$',course.course, name="course"),
+    url(r'^course/paper/$',course.paper, name="paper"),
+    url(r'^course/problem/$',course.problem, name="problem"),
+    url(r'^course/record/$',course.record, name="record"),
+    url(r'^course/judge/$',course.judge, name="judge"),
 ]
