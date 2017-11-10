@@ -39,7 +39,7 @@
   }
   ```
 
-####注册用户 `POST{base_url}/user/sign`
+####注册用户 `POST{base_url}/user/register`
 
 * Request(application/json)
 
@@ -82,7 +82,7 @@
 }
 ```
 
-####发送邮箱验证码`POST{base_url}/user/shortMess`
+####发送邮箱验证码`POST{base_url}/user/sendEmail`
 
 * Request (application/json)
 

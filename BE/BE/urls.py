@@ -19,7 +19,10 @@ from user import views as user
 from course import views as course 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^user/create/$',user.create, name="create"),
+    url(r'^user/register/$',user.register, name="register"),
+    url(r'^user/login/$',user.login, name="login"),
+    url(r'^user/sendEmail/$',user.sendEmail, name="sendEmail"),
+    url(r'^user/password/$',user.password, name="password"),
     url(r'^course/course/$',course.course, name="course"),
     url(r'^course/paper/$',course.paper, name="paper"),
     url(r'^course/problem/$',course.problem, name="problem"),
