@@ -61,7 +61,7 @@
   }
   ````
 
-####检查用户名或邮箱是否重复`GET{base_url}/user/sign`
+####检查用户名或邮箱是否重复`GET{base_url}/user/register`
 
 * Requset(application/json)
 
@@ -248,20 +248,13 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 }
 ````
 
-<<<<<<< HEAD
-####是否作对题目`GET{base_url}/course/judge`
-=======
-####是否做对题目`POST{base_url}/course/`
->>>>>>> a7e361676d364a742510429d0e30f1773d274c19
-
-//maybe change
-
+####是否作对题目`GET{base_url}/course/judge	`
 * Requset(application/json)
 
 ```Json
 {
   	"ProblemId": 12342,
-  	"ans": A // options for option problem && T || F judge problem 
+  	"ans": A// options for option problem && T || F judge problem 
 }
 ```
 
