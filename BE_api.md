@@ -165,6 +165,10 @@
 
 User chooses the course  =>  chooses years =>choose paper => gets problems  
 
+
+
+
+
 ####选择学科`GET{base_url}/course/course`  
 
 // default Advanced  Mathmatics(need to discuss) 
@@ -276,6 +280,7 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 ````Json
 {
   	"ProblemId": 123442,
+  	"courseType": 1 //
   	"username": "zwexcelwang", // but actually zwexcelwang stands for ALWAYS RIGHT ANSWRONG
   	"note": "laafj"  //user's origin note about this problem
 }
@@ -317,6 +322,7 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 ```Json
 {
 	"username": "zwexcelwang",
+  	"courseType": 1
 }
 ```
 
@@ -324,7 +330,6 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 
 ```Json
 {
-    "problemNum": 123
   	"problems":[
     	{
     	"id": 1231234,
@@ -342,4 +347,21 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 }
 ```
 
-If user want do that again, go to the 选择题目 funtion。
+####删除错题`DELETE{base_url}/course/record`	
+
+* Request (application/json)
+
+```Json
+{
+	"problemId":1234134,
+  	"username":"excelwang",
+}
+```
+
+* Response 200
+
+````Json
+{
+	"success": 1
+}
+````

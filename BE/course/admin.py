@@ -7,7 +7,7 @@ from .models import Ans_Pic
 from .models import Option
 # Register your models here.
 class PaperAdmin(admin.ModelAdmin):
-    list_display = ('paper_title','problem_num','paper_course')
+    list_display = ("id" ,'paper_title','problem_num','paper_course')
 class ProblemAdmin(admin.ModelAdmin):
     list_display = ("pro_des",'pro_order','pro_des', "id")
 class RecordAdmin(admin.ModelAdmin):

@@ -31,7 +31,7 @@ class Problem(models.Model):
     # pro_order is the order in paper 
     # pro_type is the type 1 for the choose proble
     # 2 for the judge problem, 3 for tiankong problem
-    # 4 for the Big ProblemD
+    # 4 for the Big Problem
     paper = models.ForeignKey('course.Paper')
     pro_des = models.TextField()
     pro_detail = models.TextField()
