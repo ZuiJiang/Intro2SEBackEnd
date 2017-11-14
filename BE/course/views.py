@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from pprint import pprint
 from .models import Paper
@@ -11,6 +11,7 @@ from .models import Record
 from .models import Ans_Pic
 from .models import Pro_Pic
 from .models import Option
+import random
 import json
 # Create your views here.
 
@@ -35,19 +36,19 @@ def course(request):
                 "num": count,
                 "papers": papers
             }
-            return HttpResponse(json.dumps(return_dict))
+            return JsonResponse(return_dict)
         else:
             return_msg = {
                 "success": 0,
                 "err_msg": "参数不正确"
             }
-            return HttpResponse(json.dumps(return_msg))
+            return JsonResponse(return_msg)
     else:
         return_msg = {
             "success": 0,
             "err_msg": "方法不正确"
         }
-        return HttpResponse(json.dumps(return_msg)) 
+        return JsonResponse(return_msg)
 
 # choose the paper
 @csrf_exempt
@@ -64,25 +65,24 @@ def paper(request):
                 problem_dict['ProblemOrder'] = model_to_dict(problem)['pro_order']
                 count += 1
                 problem_list.append(problem_dict)
-            pprint(problem_list)
             return_dict = {
                 "success": 1,
                 "ProblemNum": count,
                 "Problems":problem_list
             }
-            return HttpResponse(json.dumps(return_dict))
+            return JsonResponse(return_dict)
         else:
             return_msg = {
                 "success": 0,
                 "err_msg": "参数不正确"
             }
-            return HttpResponse(json.dumps(return_msg))
+            return JsonResponse(return_msg)
     else:
         return_msg = {
             "success": 0,
             "err_msg": "方法不正确"
         }
-        return HttpResponse(json.dumps(return_msg)) 
+        return JsonResponse(return_msg)
 
 #judge the answer
 @csrf_exempt
@@ -98,19 +98,20 @@ def judge(request):
                 return_msg["result"] = 1
             else:
                 return_msg["result"] = 0
-            return HttpResponse(json.dumps(return_msg))
+            return JsonResponse(return_msg)
         else:
             return_msg = {
                 "success": 0,
                 "err_msg": "确保参数名完整"
             }
-            return HttpResponse(json.dumps(return_msg))
+            return JsonResponse(return_msg)
     else:
         return_msg = {
             "success": 0,
             "err_msg": "请检查方法"
         }
-        return HttpResponse(json.dumps(return_msg))
+        return JsonResponse(return_msg)
+
 #choose the problem 
 @csrf_exempt
 def problem(request):
@@ -119,6 +120,7 @@ def problem(request):
             ProblemId = request.GET.get("ProblemId")
             problem = model_to_dict(Problem.objects.get(id = ProblemId))
             problem.pop("paper")
+            pprint(problem)
             if(problem["pro_type"] == 1 or problem["pro_type"] == 2):
                 option_list = []
                 if(problem["pro_type"] == 1):
@@ -128,39 +130,40 @@ def problem(request):
                         problem['option'] = option_list
                 problem.pop("pro_ans")
             problem['success'] = 1
-            return HttpResponse(json.dumps(problem))
+            return JsonResponse(problem)
         else:
             return_msg = {
                 "success" : 0,
                 "err_msg" : "参数不正确"
             }
-            return HttpResponse(json.dumps(return_msg))
+            return JsonResponse(return_msg)
     else:
         return_msg = {
             "success": 0,
             "err_msg": "方法不正确"
         }
-        return HttpResponse(json.dumps(return_msg))
+        return JsonResponse(return_msg)
 
-#add the problem into the record
 @csrf_exempt
 def record(request):
+    #add the problem into the record
     if(request.method == "POST"):
         data = json.loads(request.body)
-        pprint(data)
         problemId = data['ProblemId']
         username = data['username']
         note = data['username']
-        Record.objects.create(pro_id = problemId, pro_User = username, pro_note = note)
+        courseType = data['courseType']
+        Record.objects.create(pro_id = problemId, pro_User = username, pro_note = note,course = courseType)
         return_msg = {
             "success":1
         }
-        return HttpResponse(json.dumps(return_msg))
+        return JsonResponse(return_msg)
     #check the user problem record
     elif(request.method == "GET"):
-        if(request.GET.get("username")):
+        if(request.GET.get("username") and request.GET.get("courseType")):
             username = request.GET.get("username")
-            records = Record.objects.filter(pro_User = username)
+            course = request.GET.get("courseType")
+            records = Record.objects.filter(pro_User = username, course=course)
             count = 0
             problem_list = []
             for record in records:
@@ -168,15 +171,86 @@ def record(request):
                 pro_note = model_to_dict(record)['pro_note']
                 problem = model_to_dict(Problem.objects.get(id = pro_id))
                 problem["problemNote"] = pro_note
-                 
                 problem_list.append(problem)
             return_msg = {
                 "problemNum": count,
                 "problems": problem_list
             }
+            return JsonResponse(return_msg)
+    #delete this record
+    elif(request.method == "DELETE"):
+        data = json.loads(request.body)
+        username = data['username']
+        id = data['problemId']
+        try:
+            record = Record.objects.get(pro_User=username, pro_id=id)
+            record.delete()
+            return_msg = {
+                "success": 1
+            }
+        except:
+            return_msg = {
+                "success": 0,
+                "err_msg": "没有收藏这道错题"
+            }
+        return JsonResponse(return_msg)
+    elif(request.method == "PUT"):
+        data = json.loads(request.body)
+        username = data['username']
+        id = data['problemId']
+        note = data['note']
+        try:
+            record = Record.objects.get(pro_User = username, pro_id=id)
+            record.note = note
+            record.save()
+            return_msg = {
+                "success": 1
+            }
+        except:
+            return_msg = {
+                "success": 0,
+                "err_msg": "未加入错题本"
+            } 
+        return JsonResponse(return_msg)
+#choose the inifite model
+@csrf_exempt
+def inifite(request):
+    if(request.method == "GET"):
+        if(request.GET.get("infinite") and request.GET.get("course_type")):
+            if(request.GET.get("infinite") != "1"):
+                return_msg = {
+                    "success": 0,
+                    "err_msg": "请确定请求内容是否正确"
+                }
+                return JsonResponse(return_msg)
+            else:
+                course = request.GET.get("course_type")
+                problems = Problem.objects.filter(course_type = course)
+                problemList= list(problems)
+                random_problem = random.sample(problemList, 20)
+                pprint(random_problem)
+                return_pro = []
+                count = 0;
+                for problem in random_problem:
+                    dict = {}
+                    dict["ProblemId"] = model_to_dict(problem)['id']
+                    dict["ProblemOrder"] = count
+                    count += 1
+                    return_pro.append(dict)
+                return_msg = {
+                    "success": 1,
+                    "Problems": return_pro
+                }
+                return JsonResponse(return_msg)
+        else:
+            return_msg = {
+                "success": 0,
+                "err_msg": "检查参数"
+            }
+            return JsonResponse(return_msg)
     else:
         return_msg = {
             "success": 0,
-            "err_msg": "方法不正确"
+            "err_msg":"检查请求方法"
         }
-        return HttpResponse(json.dumps(return_msg))
+        return JsonResponse(return_msg)

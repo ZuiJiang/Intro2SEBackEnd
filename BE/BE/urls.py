@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^course/problem/$',course.problem, name="problem"),
     url(r'^course/record/$',course.record, name="record"),
     url(r'^course/judge/$',course.judge, name="judge"),
+    url(r'^course/infinite/$',course.inifite, name="infinite"),
 ]

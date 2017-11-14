@@ -165,10 +165,6 @@
 
 User chooses the course  =>  chooses years =>choose paper => gets problems  
 
-
-
-
-
 ####选择学科`GET{base_url}/course/course`  
 
 // default Advanced  Mathmatics(need to discuss) 
@@ -226,6 +222,35 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 }
 ````
 
+#### 选择无尽模式`GET{base_url}/course/infinite`
+
+* Request(application/json)
+
+```json
+{
+	"infinite": 1,
+  	"course_type": 4
+}
+```
+
+* Reqsponse 200
+
+````Json
+{
+	"success": 1,
+  //in this model the problem is random
+  	"Problems": [{
+   		"ProblemId": 1234123,
+      	"ProblemOrder": 1
+    }, {
+        "ProblemId": 1231234,
+      	"ProblemOrder": 2
+    }]
+}
+````
+
+
+
 ####选择题目`GET{base_url}/course/problem`
 
 * Request(application/json)
@@ -258,7 +283,9 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 ```Json
 {
   	"ProblemId": 12342,
-  	"ans": A// options for option problem && T || F judge problem 
+  	"ans": 1// options for option problem && T || F judge problem 
+  //0 for a && 1 for b && 2 for c && 3 for d
+  //0 for T && 1 for F
 }
 ```
 
@@ -365,3 +392,23 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 	"success": 1
 }
 ````
+
+#### 修改错题笔记`PUT{base_url}/course/record`
+
+* Request(application/json)
+
+````Json
+{
+	"problemId":123412,
+	"username":"excelwang",
+	"note":"dsfaadf"
+}
+````
+
+* Response 200
+
+```Json
+{
+	"success":1
+}
+```
