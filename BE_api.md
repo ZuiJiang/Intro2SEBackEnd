@@ -173,7 +173,7 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 
 ````Json
 {
-  "course": course_type  // 1 for advanced math 2 for linear algebra etc can discuss
+  "course": course_type  // 1 for advanced math 2 for linear algebra etc can discuss -1 for all paper
 }
 ````
 

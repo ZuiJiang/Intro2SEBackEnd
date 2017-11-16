@@ -21,7 +21,32 @@ def course(request):
     if (request.method == "GET") :
         if(request.GET.get("course")):
             course_type = request.GET.get("course")
+            # if course_type == -1 return all papers
+            if(course_type == "-1"):
+                papers = []
+                count = 0
+                all_paper = Paper.objects.all()
+                for paper in all_paper:
+                    paper_dict = model_to_dict(paper)
+                    paper_dict.pop('problem_num')
+                    paper_dict.pop('paper_course')
+                    paper_dict.pop('paper_type')
+                    papers.append(paper_dict)
+                    count += 1
+                    return_dict = {
+                        "success": 1,
+                        "num": count,
+                        "papers": papers
+                    }
+                return JsonResponse(return_dict)
+
             paper_set = Paper.objects.filter(paper_type=course_type)
+            if(len(paper_set) == 0):
+                return_msg = {
+                    "success": 0,
+                    "err_msg": "没有查询到相应学科"
+                }
+                return JsonResponse(return_msg)
             count = 0
             papers = []
             for paper in paper_set:
@@ -57,6 +82,12 @@ def paper(request):
         if(request.GET.get("paperId")):
             paper_id = request.GET.get("paperId")
             problems = Problem.objects.filter(paper = paper_id)
+            if(len(problem) == 0):
+                return_msg = {
+                    "success": 0,
+                    "err_msg": "没有查询到相应的试卷"
+                }
+                return JsonResponse(return_msg)
             count = 0
             problem_list = []
             for problem in problems:
