@@ -82,7 +82,7 @@ def paper(request):
         if(request.GET.get("paperId")):
             paper_id = request.GET.get("paperId")
             problems = Problem.objects.filter(paper = paper_id)
-            if(len(problem) == 0):
+            if(len(problems) == 0):
                 return_msg = {
                     "success": 0,
                     "err_msg": "没有查询到相应的试卷"
