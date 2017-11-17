@@ -277,13 +277,20 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 }
 ````
 
-####是否作对题目`GET{base_url}/course/judge	`
+####是否作对题目`POST{base_url}/course/judge	`
 * Requset(application/json)
 
 ```Json
 {
-  	"ProblemId": 12342,
-  	"ans": 1// options for option problem && T || F judge problem 
+  	"username":"excelwang" // fengkuangshuati、wzw
+  	"Problems":[{
+        "id":"123141",
+      	"originAns":"1" // 0 for A, 1 for B, 2 for C, 3 for D, 0 for F, 1 for T
+    },{
+        "id":"123142",
+      	"originAns":"0" 
+    }] 
+  // options for option problem && T || F judge problem 
   //0 for a && 1 for b && 2 for c && 3 for d
   //0 for T && 1 for F
 }
@@ -293,8 +300,18 @@ User chooses the course  =>  chooses years =>choose paper => gets problems
 
 ```json
 {
-  "result": 1 // 1 for right && 0 for wrong
-  "success": 1
+  "success": 1,
+  "Problems":[{
+    	"id":"123141"，
+    	"correctAns":"1"
+    	"result":"0", // 0 for wrong && 1 for right
+    	"originAns":"1"
+  },{
+      	"id":"123142",
+    	"correctAns":"2",
+    	"originAns":"0"
+  }],
+  "evaluate": "Sutpid function for child"
 }
 ```
 

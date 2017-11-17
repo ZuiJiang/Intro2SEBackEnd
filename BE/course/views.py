@@ -11,6 +11,8 @@ from .models import Record
 from .models import Ans_Pic
 from .models import Pro_Pic
 from .models import Option
+from user.models import Profile
+from django.contrib.auth.models import User
 import random
 import json
 # Create your views here.
@@ -118,24 +120,41 @@ def paper(request):
 #judge the answer
 @csrf_exempt
 def judge(request):
-    if(request.method == "GET"):
-        if(request.GET.get("ProblemId") and request.GET.get("ans")):
-            ProblemId = request.GET.get("ProblemId")
-            ans = request.GET.get("ans")
-            return_msg = {
-                "success":1
-            }
-            if(ans == model_to_dict(Problem.objects.get(id = ProblemId))["pro_ans"]):
-                return_msg["result"] = 1
+    if(request.method == "POST"):
+        data = json.loads(request.body)
+        username = data['username']
+        problems = data['Problems']
+        correct_num = 0
+        for problem in problems:
+            problemId = problem['id']
+            ans = problem['originAns']
+            try:
+                correct_ans = Problem.objects.get(id=problemId).get_correct_ans()
+            except:
+                correct_ans = "该题目不存在"
+            if(correct_ans == ans):
+                problem['result'] = '1'
+                correct_num += 1
             else:
-                return_msg["result"] = 0
-            return JsonResponse(return_msg)
+                problem['result'] = '0'
+            problem['correctAns'] = correct_ans
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user=user)
+        profile.finishNum += len(problems)
+        accuracy = correct_num / len(problems)
+        last_accuracy = profile.accuracy
+        if(last_accuracy > accuracy):
+            evaluate = "正确率有所下降，要加油哦"
         else:
-            return_msg = {
-                "success": 0,
-                "err_msg": "确保参数名完整"
-            }
-            return JsonResponse(return_msg)
+            evaluate = "你变强了，注意头发"
+        profile.accuracy = accuracy
+        profile.save()
+        return_msg = {
+            "success": 1,
+            "Problems":problems,
+            "evaluate": evaluate
+        }
+        return JsonResponse(return_msg)
     else:
         return_msg = {
             "success": 0,

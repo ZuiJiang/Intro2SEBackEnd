@@ -45,6 +45,8 @@ class Problem(models.Model):
         return self.pro_des
     def get_problem_ans(self):
         return self.pro_ans
+    def get_correct_ans(self):
+        return self.pro_ans
 
 class Record(models.Model):
     pro_User = models.CharField(max_length=10)

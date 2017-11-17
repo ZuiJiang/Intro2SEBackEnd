@@ -4,5 +4,7 @@ from .models import Email
 # Register your models here.
 class EmailAdmin(admin.ModelAdmin):
     list_display = ("email","validate")
-admin.site.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ("user","finishNum", "accuracy")
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Email, EmailAdmin)

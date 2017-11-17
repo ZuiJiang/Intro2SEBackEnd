@@ -16,11 +16,11 @@ from .models import Email
 @csrf_exempt
 def register(request):
     if (request.method == "POST"):
-        user = json.loads(request.body)
-        user_name = user['username']
-        user_pass = user['password']
-        user_email = user['email']
-        user_validate = user['validate']
+        user_data = json.loads(request.body)
+        user_name = user_data['username']
+        user_pass = user_data['password']
+        user_email = user_data['email']
+        user_validate = user_data['validate']
         try:
             email = Email.objects.get(email = user_email)
         except:
@@ -43,7 +43,8 @@ def register(request):
             except:
                 #register success
                 try:
-                    User.objects.create_user(user_name,user_email,user_pass) 
+                    user = User.objects.create_user(user_name, user_email, user_pass) 
+                    Profile.objects.create(user=user, finishNum=0)
                     return_msg = {
                         "success":1
                     }
@@ -70,7 +71,7 @@ def register(request):
             except:
                 # if need check the email
                 if(request.GET.get("email")):
-                    user_email = reduce.GET.get("email")
+                    user_email = request.GET.get("email")
                     try:
                         user = User.objects.get(email = user_email)
                         return_msg = {
