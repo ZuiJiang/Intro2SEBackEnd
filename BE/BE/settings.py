@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = 'BE.urls'
@@ -131,3 +132,6 @@ EMAIL_HOST_USER = "18191605267@163.com"
 EMAIL_HOST_PASSWORD = "Token123"
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+#CORS setting
+CORS_ORIGIN_ALLOW_ALL = True
