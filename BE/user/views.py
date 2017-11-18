@@ -41,18 +41,27 @@ def register(request):
                 }
                 return JsonResponse(return_msg)
             except:
-                #register success
+                #check whether the email is repeat
                 try:
-                    user = User.objects.create_user(user_name, user_email, user_pass) 
-                    Profile.objects.create(user=user, finishNum=0)
-                    return_msg = {
-                        "success":1
-                    }
-                except:
+                    user = User.objects.get(email=user_email)
                     return_msg = {
                         "success": 0,
-                        "err_msg": "用户名仅能含有不能含有?,!等特殊字符"
+                        "err_msg": "邮箱被使用"
                     }
+                    return JsonResponse(return_msg)
+                except:
+                #register success
+                    try:
+                        user = User.objects.create_user(user_name, user_email, user_pass) 
+                        Profile.objects.create(user = user, finishNum=0, accuracy=0)
+                        return_msg = {
+                            "success":1
+                        }
+                    except:
+                        return_msg = {
+                            "success": 0,
+                            "err_msg": "用户名仅能含有不能含有?,!等特殊字符"
+                        }
         else:
             return_msg = {
                 "success": 0,
