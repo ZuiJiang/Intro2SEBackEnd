@@ -9,7 +9,7 @@ from .models import Option
 class PaperAdmin(admin.ModelAdmin):
     list_display = ("id" ,'paper_title','problem_num','paper_course')
 class ProblemAdmin(admin.ModelAdmin):
-    list_display = ("pro_des",'pro_order','pro_des', "id")
+    list_display = ("pro_des",'pro_order', "id")
 class RecordAdmin(admin.ModelAdmin):
     list_display = ("pro_User","pro_id")
 admin.site.register(Paper, PaperAdmin)

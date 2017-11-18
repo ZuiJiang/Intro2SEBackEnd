@@ -42,8 +42,6 @@ class Problem(models.Model):
     pro_order = models.IntegerField()
     pro_type = models.IntegerField()
     def __str__(self):
-        return self.pro_des
-    def get_problem_ans(self):
         return self.pro_ans
     def get_correct_ans(self):
         return self.pro_ans
