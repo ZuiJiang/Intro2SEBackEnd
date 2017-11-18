@@ -100,7 +100,7 @@
 }
 ```
 
-####用户登出`DELETE{base_url}/user/user`
+####用户登出`DELETE{base_url}/user/logout`
 
 * Request(application/json)
 

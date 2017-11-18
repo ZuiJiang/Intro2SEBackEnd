@@ -6,6 +6,7 @@ from pprint import pprint
 from django.forms.models import model_to_dict
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from .utlis.MyEmail import send_your_email
@@ -253,5 +254,16 @@ def password(request):
         return_msg = {
             "success": 0,
             "err_msg":"确保方法正确"
+        }
+        return JsonResponse(return_msg)
+
+#user logout
+#WARNING: this method need to be tested
+@csrf_exempt
+def logout(request):
+    if(request.method == "DELETE") :
+        logout(request)
+        return_msg = {
+            "success":"1"
         }
         return JsonResponse(return_msg)
