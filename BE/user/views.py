@@ -151,7 +151,7 @@ def login(request):
 @csrf_exempt
 def sendEmail(request):
     if(request.method == "POST"):
-        user_email = json.loads(request.body)['email']
+        user_email = (json.loads(request.body))['email']
         try:
             validate_email(user_email)
         except:
@@ -161,6 +161,7 @@ def sendEmail(request):
             } 
             return JsonResponse(return_msg)
         validate = send_your_email(user_email)
+        print(validate)
         try:
             # if the email exists then update the validate
             exist_email = Email.objects.get(email = user_email)
