@@ -170,7 +170,6 @@ def problem(request):
             ProblemId = request.GET.get("ProblemId")
             problem = model_to_dict(Problem.objects.get(id = ProblemId))
             problem.pop("paper")
-            pprint(problem)
             if(problem["pro_type"] == 1 or problem["pro_type"] == 2):
                 option_list = []
                 if(problem["pro_type"] == 1):
@@ -278,7 +277,6 @@ def inifite(request):
                 problems = Problem.objects.filter(course_type = course)
                 problemList= list(problems)
                 random_problem = random.sample(problemList, 20)
-                pprint(random_problem)
                 return_pro = []
                 count = 0;
                 for problem in random_problem:

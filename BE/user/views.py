@@ -171,7 +171,6 @@ def sendEmail(request):
             } 
             return JsonResponse(return_msg)
         validate = send_your_email(user_email)
-        print(validate)
         try:
             # if the email exists then update the validate
             exist_email = Email.objects.get(email = user_email)
