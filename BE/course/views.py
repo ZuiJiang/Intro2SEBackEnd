@@ -146,7 +146,7 @@ def judge(request):
         if(last_accuracy > accuracy):
             evaluate = "正确率有所下降，要加油哦"
         else:
-            evaluate = "你变强了，注意头发"
+            evaluate = "进步很大，再接再励，只要路是对的，就不怕路远！"
         profile.accuracy = accuracy
         profile.save()
         return_msg = {
